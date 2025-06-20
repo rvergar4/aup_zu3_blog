@@ -1,0 +1,14 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import BlogPost from '../components/BlogPost.astro';
+const allPosts = Object.values(import.meta.glob('./posts/*.md', { eager: true }));
+const pageTitle = "AUP-ZU3 Labs Blog";
+---
+
+<BaseLayout pageTitle={pageTitle}>
+  <h2>The AUP-ZU3 has a lot to explore!</h2>
+
+   <ul>
+      {allPosts.map((post: any) => <BlogPost url={post.url} title={post.frontmatter.title} />)}
+    </ul>
+</BaseLayout>

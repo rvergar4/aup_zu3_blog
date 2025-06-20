@@ -1,16 +1,15 @@
 ---
-
+import BaseLayout from '../layouts/BaseLayout.astro';
+const pageTitle = "AUP-ZU3 Labs";
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>AUP-ZU3 Labs</h1>
-	</body>
-</html>
+<BaseLayout pageTitle={pageTitle}>
+	<img 
+	src="https://www.realdigital.org/img/bb333648a727ad749067e8cc2ab51f6c.png"
+	alt="AUP-ZU3 development board close-up"
+	style="width: 60%; max-width: 600px; height: auto;" 
+	/>
+	<h2>Exploring the AUP-ZU3 through labs</h2>
+
+	<h2>What the AUP-ZU3 has to offer</h2>
+</BaseLayout>
