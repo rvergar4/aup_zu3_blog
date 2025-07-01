@@ -10,17 +10,16 @@ image:
 tags: ["Getting Started", "AUP-ZU3", "Tutorial"]
 ---
 First a look at the basic tools we will be using to operate the AUP-ZU3 FPGA board:
-<ul>
-    <li>USB-C cable (for data/programming)</li>
-    <li>USB-C power supply (for powering the board)</li>
-    <li>Vivado (for hardware development)</li>
-    <li>Vitis (for software development)</li>
-</ul>
+
+- USB-C cable (for data/programming)</li>
+- USB-C power supply (for powering the board)</li>
+- Vivado (for hardware development)</li>
+- Vitis (for software development)</li>
 
 <details>
     <summary>Step 1: Tool Installation</summary>
     <div class="content">
-        content that can be expanded or collapesd.
+        content that can be expanded or collapsed.
     </div>
 </details>
 
