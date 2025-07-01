@@ -5,7 +5,7 @@ pubDate: 2025-06-24
 description: 'Lets get started with the AUP-ZU3!.'
 author: 'Rosa Vergara'
 image:
-    url: 'https://www.realdigital.org/img/bb333648a727ad749067e8cc2ab51f6c.png'
+    url: '/assets/aupzu3/aupzu3.png'
     alt: 'Close up of the AUP-ZU3 FPGA development board.'
 tags: ["Getting Started", "AUP-ZU3", "Tutorial"]
 ---
@@ -18,14 +18,14 @@ First a look at the basic tools we will be using to operate the AUP-ZU3 FPGA boa
 </ul>
 
 <details>
-    <summary>Step 1: Tool Istallation</summary>
+    <summary>Step 1: Tool Installation</summary>
     <div class="content">
         content that can be expanded or collapesd.
     </div>
 </details>
 
 <details>
-  <summary>Step 2: Block Design in Vivad</summary>
+  <summary>Step 2: Block Design in Vivado</summary>
   content that can be expanded or collapesd.
 </details>
 
