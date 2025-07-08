@@ -7,7 +7,7 @@ author: 'Ron Sass'
 image:
     url: '/assets/aupzu3/aupzu3.png'
     alt: 'Close up of the AUP-ZU3 FPGA development board.'
-tags: ["AUP-ZU3", "Tutorial"]
+tags: ["AUP-ZU3", "Tutorial", "Helpful Hint"]
 ---
 <style>
   .content {
