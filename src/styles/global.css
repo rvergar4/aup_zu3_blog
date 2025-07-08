@@ -88,3 +88,12 @@ h1 {
   }
 
 }
+
+p > code {
+  padding: 4px;
+  border-radius: 4px;
+  background: #e0ded8;
+  font-family: Consolas, Monaco, 'Andale Mono', monospace;
+  direction: ltr;
+  font-size: 14px;
+}
