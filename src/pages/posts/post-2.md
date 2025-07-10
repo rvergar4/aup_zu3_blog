@@ -9,6 +9,7 @@ image:
     alt: 'Close up of the AUP-ZU3 FPGA development board.'
 tags: ["AUP-ZU3", "Tutorial", "Helpful Hint"]
 ---
+
 <style>
   .content {
     display: none;
@@ -148,7 +149,7 @@ cycle
 
 From this, we get the VHDL process pseudocode ...
 
-```
+```vhdl
     signal value: unsigned(31 downto 0) ; -- infers a register
 
     if clk'event and clk='1' then
@@ -189,7 +190,7 @@ see below ...
 I call this file `pwm.vhdl` and I create it outside of my project
 and then copy it in ...
 
-```
+```vhdl
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
@@ -239,7 +240,7 @@ some editors have it built-in.
 I call this file `pwm_tb.vhdl` and I create it outside of my project
 and then copy it in ...
 
-```
+```vhdl
 library IEEE;
 use IEEE.Std_logic_1164.all;
 use IEEE.Numeric_Std.all;

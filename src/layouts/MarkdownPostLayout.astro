@@ -2,6 +2,7 @@
 import BaseLayout from './BaseLayout.astro';
 import { SITE } from "@config";
 const { frontmatter } = Astro.props;
+import Icon from './Icon.astro';
 ---
 <BaseLayout pageTitle={frontmatter.title}>
     <div class="tags">
@@ -15,6 +16,39 @@ const { frontmatter } = Astro.props;
     <img src={frontmatter.image.url} width="300" alt={frontmatter.image.alt} />
     <slot />
 </BaseLayout>
+
+<script is:inline>
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('pre').forEach(pre => {
+      const button = document.createElement('button');
+      const img = document.createElement('img');
+      img.src = '/assets/icons/copyWhite.svg';
+      img.alt = 'Copy code';
+      img.style.width = '20px';
+      img.style.height = '20px';
+
+      button.appendChild(img);
+      button.className = 'copy-button';
+      button.title = 'Copy code';
+      button.style = 'position:absolute; top:8px; right:8px; background:none; border:none; cursor:pointer;';
+
+      button.addEventListener('click', () => {
+        navigator.clipboard.writeText(pre.innerText);
+        img.src = '/assets/icons/copyCheckWhite.svg';
+        setTimeout(() => {
+          img.src = '/assets/icons/copyWhite.svg';
+        }, 2000);
+      });
+
+      const wrapper = document.createElement('div');
+      wrapper.style = 'position:relative;';
+      pre.parentNode.insertBefore(wrapper, pre);
+      wrapper.appendChild(pre);
+      wrapper.appendChild(button);
+    });
+  });
+</script>
+
 
 <style>
   a {
