@@ -1,5 +1,4 @@
 ---
-layout: ../../layouts/MarkdownPostLayout.astro
 title: 'Board Files'
 pubDate: 2025-07-12
 description: 'how to install 3rd part board descriptions in Vivado to simplify the integration of on-board peripherals; most tutorials assume these files have been installed'

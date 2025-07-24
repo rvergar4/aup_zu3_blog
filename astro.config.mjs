@@ -20,5 +20,5 @@ export default defineConfig({
   },
   integrations: [
     icon({iconDir: 'src/icons'}), 
-    mdx()], 
+    mdx()],
 });

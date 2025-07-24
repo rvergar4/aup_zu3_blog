@@ -1,5 +1,4 @@
 ---
-layout: ../../layouts/MarkdownPostLayout.astro
 title: 'Blinky AUP-ZU3'
 pubDate: 2025-07-12
 description: >

@@ -1,5 +1,4 @@
 ---
-layout: ../../layouts/MarkdownPostLayout.astro
 title: 'Just a Microcontroller'
 pubDate: 2025-07-09
 description: 'How to configure the ZYNQ Ultrascale+ MPSoC hardware to be just a simple microcontroller and then create the (obligatory) "Hello, World!" software application.'

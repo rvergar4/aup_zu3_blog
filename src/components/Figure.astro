@@ -1,7 +1,12 @@
 ---
-const { src, alt, caption, width = "500", link = src } = Astro.props;
----
+let { src, alt, caption, width = "500", link } = Astro.props;
 
+if (typeof src === "object" && src?.src) {
+  link ??= src.src;
+  src = src.src;
+}
+link ??= src;
+---
 <figure>
   <a href={link} target="_blank">
     <img src={src} width={width} alt={alt} />
