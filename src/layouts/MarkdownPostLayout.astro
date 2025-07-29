@@ -4,6 +4,7 @@ import { SITE } from "@config";
 const { frontmatter } = Astro.props;
 import Icon from './Icon.astro';
 import Figure from '../components/Figure.astro';
+import CopyButton from '../components/CopyButton.astro';
 ---
 <BaseLayout pageTitle={frontmatter.title}>
     <div class="tags">
@@ -19,44 +20,14 @@ import Figure from '../components/Figure.astro';
 </BaseLayout>
 
 <!-- Code Copy Button Script -->
-<script is:inline>
-  document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('pre').forEach(pre => {
-      pre.style.padding = '1rem'; // or '12px', '16px', etc.
-      
-      const button = document.createElement('button');
-      const img = document.createElement('img');
-      img.src = '/assets/icons/copyWhite.svg';
-      img.alt = 'Copy code';
-      img.style.width = '20px';
-      img.style.height = '20px';
+<CopyButton codeText={`# ACFN Log - July 27
+  Clipboard copy button working.`} />
 
-      button.appendChild(img);
-      button.className = 'copy-button';
-      button.title = 'Copy code';
-      button.style = 'position:absolute; top:8px; right:8px; background:none; border:none; cursor:pointer;';
-
-      button.addEventListener('click', () => {
-        navigator.clipboard.writeText(pre.innerText);
-        img.src = '/assets/icons/copyCheckWhite.svg';
-        setTimeout(() => {
-          img.src = '/assets/icons/copyWhite.svg';
-        }, 2000);
-      });
-
-      const wrapper = document.createElement('div');
-      wrapper.style = 'position:relative;';
-      pre.parentNode.insertBefore(wrapper, pre);
-      wrapper.appendChild(pre);
-      wrapper.appendChild(button);
-    });
-  });
-</script>
 
 <!-- Styling -->
 <style>
   a {
-    color: #00539F;
+    color: #ebe1ca;
   }
 
   .tags {
@@ -66,11 +37,11 @@ import Figure from '../components/Figure.astro';
 
   .tag {
     margin: 0.25em;
-    border: groove 1px #8da8ca;
+    border: groove 1px #51755d;
     border-radius: .5em;
     padding: .3em .3em;
     font-size: 0.75em;
-    background-color: #d9ecf3;
+    background-color: #51755d;
   }
 </style>
 

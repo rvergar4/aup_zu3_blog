@@ -1,0 +1,72 @@
+---
+const { codeText } = Astro.props;
+---
+<div class="copy-wrapper" style="position: relative;">
+    <pre style="padding: 1rem;">{codeText}</pre>
+        <button class="copy-button" title="Copy code" style="position: absolute; top: 8px; right: 8px; background: none; border: none; cursor: pointer;">
+        <img src="/assets/icons/copyWhite.svg" alt="Copy code" style="width: 20px; height: 20px;">
+    </button>
+
+    <script is:inline>
+    document.addEventListener('DOMContentLoaded', () => {
+        const handleCopy = (text, img) => {
+        if (navigator.clipboard?.writeText) {
+            navigator.clipboard.writeText(text).then(() => {
+            showCopied(img);
+            }).catch(() => {
+            fallbackCopy(text, img);
+            });
+        } else {
+            fallbackCopy(text, img);
+        }
+        };
+
+        const fallbackCopy = (text, img) => {
+        const textarea = document.createElement('textarea');
+        textarea.textContent = text;
+        textarea.style.position = 'absolute';
+        textarea.style.left = '-9999px';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+            document.execCommand('copy');
+            showCopied(img);
+        } catch (e) {
+            alert('Copy failed. Clipboard not supported.');
+        }
+        document.body.removeChild(textarea);
+        };
+
+        const showCopied = (img) => {
+        img.src = '/assets/icons/copyCheckWhite.svg';
+        setTimeout(() => {
+            img.src = '/assets/icons/copyWhite.svg';
+        }, 2000);
+        };
+
+        document.querySelectorAll('pre').forEach(pre => {
+        pre.style.padding = '1rem';
+
+        const wrapper = document.createElement('div');
+        wrapper.style.position = 'relative';
+        pre.parentNode.insertBefore(wrapper, pre);
+        wrapper.appendChild(pre);
+
+        const button = document.createElement('button');
+        button.className = 'copy-button';
+        button.title = 'Copy code';
+        button.style = 'position:absolute; top:8px; right:8px; background:none; border:none; cursor:pointer;';
+
+        const img = document.createElement('img');
+        img.src = '/assets/icons/copyWhite.svg';
+        img.alt = 'Copy code';
+        img.style.width = '20px';
+        img.style.height = '20px';
+
+        button.appendChild(img);
+        wrapper.appendChild(button);
+
+        button.addEventListener('click', () => handleCopy(pre.innerText, img));
+        });
+    });
+    </script>
