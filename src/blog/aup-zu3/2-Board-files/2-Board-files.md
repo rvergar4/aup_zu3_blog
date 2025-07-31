@@ -6,7 +6,7 @@ author: 'Ron Sass <rsass@charlotte.edu>'
 image:
   url: '/assets/aupzu3/aupzu3.png'
   alt: 'Close up of the AUP-ZU3 FPGA development board.'
-tags: ["AUP-ZU3", "Installation Note"]
+tags: ["AUP-ZU3", "Installation Note", "Getting Started"]
 ---
 
 This very short "how to" shows how to install a "boards file"

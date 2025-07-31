@@ -8,17 +8,19 @@ import mdx from '@astrojs/mdx';
 // https://astro.build/config
 export default defineConfig({
   markdown: {
-      remarkPlugins: [
+      remarkPlugins:[
         remarkMath,
       ],
       rehypePlugins: [rehypeKatex],
-      shikiConfig: {
-        // For more themes, visit https://shiki.style/themes
-        theme: "night-owl",
+      shikiConfig:{
+        themes:{
+          light: 'monokai',
+          dark: 'night-owl',
+        },
         wrap: false,
       },
   },
-  integrations: [
+  integrations:[
     icon({iconDir: 'src/icons'}), 
     mdx()],
 });

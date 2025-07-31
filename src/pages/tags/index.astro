@@ -2,33 +2,110 @@
 import { getCollection } from "astro:content";
 import BaseLayout from '../../layouts/BaseLayout.astro';
 const allPosts = await getCollection("blog");
-const tags = [...new Set(allPosts.map((post: any) => post.data.tags).flat())];
-const pageTitle = "Tag Index";
+const tagMap = new Map();
+
+for (const post of allPosts) {
+  const tags = post.data.tags || [];
+  for (const tag of tags) {
+    tagMap.set(tag, (tagMap.get(tag) || 0) + 1);
+  }
+}
+const tags = Array.from(tagMap.entries()).map(([name, count]) => ({ name, count }));const pageTitle = "Tag Index";
 ---
 
 <BaseLayout pageTitle={pageTitle}>
-    <div class="tags">
     {tags.map((tag) => (
-      <p class="tag"><a href={`/tags/${tag}`}>{tag}</a></p>
-    ))}
+    <div class="tag">
+        <a href={`/tags/${tag.name}`}>{tag.name}</a>
+        <span class="tag-count">{tag.count}</span>
     </div>
+    ))}    
     <style>
-    a {
-        color: #00539F;
-    }
+        a {
+            color: #ebe1ca;
+            text-decoration: none;
+        }
+        a:visited {
+            color: #ebe1ca;
+        }
 
-    .tags {
-        display: flex;
-        flex-wrap: wrap;
-    }
+        .tags {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 0;
+        }
+        .tag {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #51755d;
+            border: 2px solid #3a4f40;
+            padding: 0.4em 1em;
+            font-size: 1em;
+            font-weight: bold;
+            color: #fff;
+            display: flex;
+            text-decoration: none;
+            align-items: center;
+            transition: background-color 0.2s ease;
+        }
+        .tag a {
+            color: #ebe1ca;
+            text-decoration: none;
+            flex-grow: 1;
+        }
 
-    .tag {
-        margin: 0.25em;
-        border: dotted 1px #a1a1a1;
-        border-radius: .5em;
-        padding: .5em 1em;
-        font-size: 1.15em;
-        background-color: #F8FCFD;
-    }
-    </style>
+        .tag-count {
+            background-color: #3d5b47;
+            border-radius: 999px;
+            padding: 0.3em 0.75em;
+            font-size: 0.85em;
+            margin-left: 1em;
+        }
+
+        .tag:hover {
+            background-color: #3d5b47;
+        }
+        .tags-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 1rem;
+            padding: 1rem;
+            margin-top: 2rem;
+        }
+
+        .tag-card {
+            background: #e6e0d4;
+            border: 2px solid #51755d;
+            border-radius: 0.75em;
+            padding: 1rem;
+            box-shadow:
+                2px 2px 0px #c3bea4,
+                4px 4px 0px #c3bea4;
+            transition: all 0.15s ease-in-out;
+            text-align: center;
+        }
+
+        .tag-card:hover {
+            transform: translate(-2px, -2px);
+            box-shadow:
+                4px 4px 0px #9f9a81,
+                6px 6px 0px #9f9a81;
+        }
+
+        .tag-card h2 {
+            margin: 0;
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .tag-card p {
+            margin: 0.5em 0 0;
+            font-size: 0.95rem;
+            color: #444;
+        }
+        </style>
 </BaseLayout>

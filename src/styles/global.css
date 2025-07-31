@@ -1,15 +1,25 @@
+.page-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex: 1;
+}
+
 html {
   background-color: #fff2de;
   background-image:
     linear-gradient(to right, rgba(207, 200, 179, 0.4) 1px, transparent 1px),
     linear-gradient(to bottom, rgba(207, 200, 179, 0.4) 1px, transparent 1px);
   background-size: 20px 20px;
-  font-family: 'Georgia', 'Times New Roman', serif;
+  font-family: 'Book Antiqua', 'Times New Roman', serif;
   color: #3a3a3a;
 }
 
 html.dark {
-  background-color: #05161f;
+  background-color: #081b1f;
   background-image:
     linear-gradient(to right, rgba(59, 58, 54, 0.3) 1px, transparent 1px),
     linear-gradient(to bottom, rgba(59, 58, 54, 0.3) 1px, transparent 1px);
@@ -41,6 +51,22 @@ h1, h2, h3 {
 }
 html.dark h1, html.dark h2, html.dark h3 {
   color: #d4c6a5;
+}
+
+a {
+  color: #075340;
+}
+
+a:visited {
+  color: #075340;
+}
+
+.dark a {
+  color: #19a07e;
+}
+
+.dark a:visited {
+  color: #19a07e;
 }
 
 /* nav styles */
@@ -136,3 +162,177 @@ p > code {
   direction: ltr;
   font-size: 14px;
 }
+html.dark p > code {
+  background: #2b2a26;
+  color: #d4d3e2;
+}
+
+/* Code block Shiki theme */
+.astro-code {
+  background-color: #f5f2f0;
+  color: #000;
+}
+/* Code block dark mode overrides */
+.dark .astro-code {
+  background-color: #011627 !important; /* night-owl background */
+  color: #d6deeb !important;
+}
+
+/***********************************
+Cards with tabs
+/**********************************/
+.index-card a {
+  color: #013f27;
+}
+.index-card a:visited {
+  color: #013f27;
+}
+/* CARD STACK WRAPPER */
+.index-card-stack {
+  position: relative;
+  margin-bottom: 2rem;
+  max-width: 500px;
+}
+
+/* Stack offset layers */
+.index-card-stack::before,
+.index-card-stack::after {
+  content: '';
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  width: 100%;
+  height: 100%;
+  background-color: #fdfcf6;
+  border: 1.5px solid rgba(0, 0, 0, 0.08);
+  border-radius: 0.75rem;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05);
+  z-index: 0;
+}
+
+.index-card-stack::after {
+  top: 16px;
+  left: 16px;
+  z-index: -1;
+}
+
+/* Card appearance */
+.index-card {
+  position: relative;
+  background-color: #fdfcf6;
+  color: #000;
+  height: 300px;
+  width: 500px;
+  overflow-y: auto;
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  border: 1.5px solid rgba(0, 0, 0, 0.15);
+  box-shadow:
+    1px 1px 0px #e0dccc,
+    1px 1px 0px #e0dccc,
+    2px 1px 0px #e0dccc;
+  z-index: 1;
+}
+
+/* Lines */
+.index-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 1px, transparent 1px);
+  background-size: 20px 20px;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Red top line */
+.index-card::after {
+  content: '';
+  position: absolute;
+  top: 1.25rem;
+  left: 0.1rem;
+  right: 0.1rem;
+  height: 2px;
+  background-color: #e63946;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Card label */
+.index-card-label {
+  position: absolute;
+  top: -.01rem;
+  left: 1rem;
+  color: #000;
+  font-size: 0.7rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 0.3rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+/****** Tab System ******/
+.stack-tabs {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  position: relative;
+}
+
+/* Tabs stack along the left side */
+.tab-labels {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 0;
+  margin-top: 2rem; /* align better with top rule */
+}
+
+.tab-labels label {
+  background-color: #fdd;
+  color: #333;
+  font-size: 0.75rem;
+  padding: 0.4rem 0.6rem;
+  border-radius: 0 0.25rem 0.25rem 0;
+  font-weight: bold;
+  cursor: pointer;
+  text-align: center;
+  border: 1px solid #e6b8b8;
+  margin-bottom: 0.3rem;
+  transition: all 0.2s ease;
+  box-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+  transform: translateX(0); /* default is tucked behind */
+  position: relative;
+  left: -1px;
+}
+
+/* Selected tab style*/
+#tab1:checked ~ .tab-labels label[for="tab1"],
+#tab2:checked ~ .tab-labels label[for="tab2"],
+#tab3:checked ~ .tab-labels label[for="tab3"],
+#tab4:checked ~ .tab-labels label[for="tab4"]{
+  background-color: #f88;
+  color: white;
+  border-color: #c44;
+  z-index: 2;
+  transform: translateX(1px); /* peek out from behind the card */
+  box-shadow: 2px 2px 0 rgba(0,0,0,0.05);
+}
+
+/* Ensure the panel doesn't overlap the tab visually */
+.card-panels {
+  position: relative;
+  z-index: 1;
+}
+
+.card-panels section {
+  display: none;
+}
+
+#tab1:checked ~ .card-panels #card1,
+#tab2:checked ~ .card-panels #card2,
+#tab3:checked ~ .card-panels #card3, 
+#tab4:checked ~ .card-panels #card4{
+  display: block;
+}
+/***********************************/

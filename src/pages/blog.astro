@@ -3,18 +3,76 @@ import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import BlogPost from "../components/BlogPost.astro";
 
-const pageTitle = "My Astro Learning Blog";
+const pageTitle = "FPGA Learning Blog";
+//get all posts
 const allPosts = await getCollection("blog");
+//sort post by date (oldest to newest)
+const sortedPosts = allPosts.sort((a, b) =>
+  a.data.pubDate.valueOf() - b.data.pubDate.valueOf()
+);
+//get posts from certain directories
+const allAUPZU3Posts = sortedPosts.filter(post => post.id.startsWith('aup-zu3/'));
+const allOtherBoardPosts = sortedPosts.filter(post => post.id.startsWith('otherboard/'));
 ---
 
 <BaseLayout pageTitle={pageTitle}>
-  <h2>The AUP-ZU3 has a lot to explore!</h2>
+  <h2>There is a lot to explore!</h2>
 
-  <ul>
-    {
-      allPosts.map((post) => (
-        <BlogPost url={`/posts/${post.id}/`} title={post.data.title} />
-      ))
-    }
-  </ul>
+
+  <div class="stack-tabs">
+    <!-- Inputs must come first -->
+    <input type="radio" name="tab" id="tab1" checked hidden />
+    <input type="radio" name="tab" id="tab2" hidden />
+    <input type="radio" name="tab" id="tab3" hidden />
+    <!-- Then the labels -->
+    <div class="tab-labels">
+      <label for="tab1">AUP-ZU3</label>
+      <label for="tab2">Other Board</label>
+      <label for="tab3">Another?</label>
+    </div>
+    <!-- Then the panels -->
+    <div class="card-panels">
+
+      <section id="card1">
+        <div class="index-card-stack">
+          <div class="index-card">
+            <span class="index-card-label">AUP-ZU3 Blog</span>
+            <p>The AUP-ZU3 has a lot to explore! Let's get started</p>
+            <ul>{
+              allAUPZU3Posts.map((post) => (
+                <BlogPost url={`/posts/${post.id}/`} title={post.data.title} />
+              ))
+            }
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="card2">
+        <div class="index-card-stack">
+          <div class="index-card">
+            <span class="index-card-label">Other Board</span>
+            <p>This is another card with a different message.</p>
+              <ul>
+                {
+                  allOtherBoardPosts.map((post) => (
+                    <BlogPost url={`/posts/${post.id}/`} title={post.data.title} />
+                  ))
+                }
+              </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="card3">
+        <div class="index-card-stack">
+          <div class="index-card">
+            <span class="index-card-label">Other Blogs</span>
+            <p>Third note card example content.</p>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
 </BaseLayout>
