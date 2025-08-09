@@ -1,15 +1,23 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-const pageTitle = "The Embedded Frontier: AUP-ZU3 Field Notes";
+const pageTitle = "Adaptive Computuing Field Notes";
 ---
 
-<BaseLayout pageTitle={pageTitle}>
-	<img 
-	src='/assets/aupzu3/aupzu3.png'
-	alt="AUP-ZU3 development board close-up"
-	style="width: 60%; max-width: 600px; height: auto;" 
-	/>
-	<h2>Field notes from a curious mind learning the AUP-ZU3.</h2>
+<BaseLayout>
+	<div style="text-align: center;">
+		<img 
+			src='/assets/ACFN.png'
+			alt="AUP-ZU3 development board close-up"
+			style="width: 60%; max-width: 200px; height: auto;" 
+		/>
+	</div>
+	<h1>The Embedded Frontier:</h1>
+	<h2>Field notes from a curious mind navigating adaptive computing.</h2>
+	<p>
+		Hello world! Join us as we explore and document our adventures with
+		hardware projects! This blog is part lab journal, part guide, and part
+		curiosity for anyone intrested in hardware, FPGA design, and tinkering
+		within code and circuits.
+	</p>
 
-	<h2>What the AUP-ZU3 has to offer</h2>
 </BaseLayout>

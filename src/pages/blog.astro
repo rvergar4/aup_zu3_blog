@@ -3,7 +3,7 @@ import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import BlogPost from "../components/BlogPost.astro";
 
-const pageTitle = "FPGA Learning Blog";
+const pageTitle = "Field Notes on FPGA Learning";
 //get all posts
 const allPosts = await getCollection("blog");
 //sort post by date (oldest to newest)
@@ -16,7 +16,7 @@ const allOtherBoardPosts = sortedPosts.filter(post => post.id.startsWith('otherb
 ---
 
 <BaseLayout pageTitle={pageTitle}>
-  <h2>There is a lot to explore!</h2>
+  <h2>There’s always more to uncover.</h2>
 
 
   <div class="stack-tabs">
@@ -28,7 +28,6 @@ const allOtherBoardPosts = sortedPosts.filter(post => post.id.startsWith('otherb
     <div class="tab-labels">
       <label for="tab1">AUP-ZU3</label>
       <label for="tab2">Other Board</label>
-      <label for="tab3">Another?</label>
     </div>
     <!-- Then the panels -->
     <div class="card-panels">
@@ -42,8 +41,7 @@ const allOtherBoardPosts = sortedPosts.filter(post => post.id.startsWith('otherb
               allAUPZU3Posts.map((post) => (
                 <BlogPost url={`/posts/${post.id}/`} title={post.data.title} />
               ))
-            }
-            </ul>
+            }</ul>
           </div>
         </div>
       </section>
@@ -53,22 +51,11 @@ const allOtherBoardPosts = sortedPosts.filter(post => post.id.startsWith('otherb
           <div class="index-card">
             <span class="index-card-label">Other Board</span>
             <p>This is another card with a different message.</p>
-              <ul>
-                {
+              <ul>{
                   allOtherBoardPosts.map((post) => (
                     <BlogPost url={`/posts/${post.id}/`} title={post.data.title} />
                   ))
-                }
-              </ul>
-          </div>
-        </div>
-      </section>
-
-      <section id="card3">
-        <div class="index-card-stack">
-          <div class="index-card">
-            <span class="index-card-label">Other Blogs</span>
-            <p>Third note card example content.</p>
+                }</ul>
           </div>
         </div>
       </section>

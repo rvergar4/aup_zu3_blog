@@ -4,14 +4,16 @@ import Hamburger from './Hamburger.astro';
 import ThemeIcon from './ThemeIcon.astro';
 ---
 
-<header>
-    <nav>
-        <Hamburger />
-        <ThemeIcon />
-        <header class="site-header">
-            <a href="/">
-                <img src="/assets/ACFN.png" alt="Adaptive Computing Field Notes" class="site-logo" />
-            </a>
-        <Navigation />
-    </nav>
+<header class="site-header">
+  <div class="header-controls">
+    <ThemeIcon />
+    <Hamburger />
+  </div>
+
+  <div class="header-main">
+    <a href="/">
+        <img src="/assets/ACFNImg.png" alt="Adaptive Computing Field Notes" class="site-logo" />
+    </a>
+    <Navigation />
+  </div>
 </header>
