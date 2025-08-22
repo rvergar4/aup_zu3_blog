@@ -1,0 +1,30 @@
+---
+const { fileUrl, label = "Download", fileName } = Astro.props;
+---
+
+<a href={fileUrl} download={fileName || undefined}>
+  <button
+    style="
+      background-color: #51755d;
+      color: #ebe1ca;
+      border: none;
+      padding: 0.3rem 0.5rem;
+      font-size: 1rem;
+      cursor: pointer;
+      border-radius: 10px;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: background-color 0.2s ease;
+    "
+    onmouseover="this.style.backgroundColor='#3f5a48'"
+    onmouseout="this.style.backgroundColor='#51755d'"
+  >
+    <img
+      src="/assets/icons/downloadWhite.svg"
+      alt=""
+      style="width: 18px; height: 18px;"
+    />
+    {label}
+  </button>
+</a>

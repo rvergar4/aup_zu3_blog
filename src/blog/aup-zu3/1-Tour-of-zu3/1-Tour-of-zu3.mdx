@@ -1,58 +1,79 @@
 ---
 title: 'Tour of AUP-ZU3 Board'
 pubDate: 2025-07-09
-description: 'A trip to the "Zu"'
-author: 'Ron Sass'
+description: 'First Encounter with the AUP-ZU3'
+author: 'Rosa Vergara'
 image:
     url: '/assets/aupzu3/aupzu3.png'
     alt: 'Close up of the AUP-ZU3 FPGA development board.'
 tags: ["AUP-ZU3", "Tour", "Getting Started"]
 ---
+import DownloadButton from '../../../components/DownloadButton.astro';
+import bootBin4gb  from './4GBBootBin/BOOT.bin?url';
+import bootBin8gb  from './8GBBootBin/BOOT.bin?url';
 
-This XYZ-min introduction to AMD's University Program's
+import Figure from '../../../components/Figure.astro';
+import labledAUPZU3 from './aupzu3Labels.png';
+
+This is a 5-min introduction to AMD's University Program's
 adaptive computing board, the AUP-ZU3 with no coding
 or EDA tools needed!
 
 ## Objective
 
-The simple goal of these brief instructions is to help
-a user identify the ports needed for powering the board
-and programming/debugging.  Highlight some of the on-board
+Let's get familiar with the terrain before we dive into harware or software design.
+We will find the ports, identify the power source, and get to know some of the on-board
 peripherals.
 
-## Pre-Requisites
+## Gear Check
 
-* get your hands on either a 4 or 8 GB AUP-ZU3 board
+* Aquire one <a href="https://www.realdigital.org/hardware/aup-zu3" target="_blank" rel="noopener noreferrer">
+                AUP-ZU3
+             </a> board
+  (either the 4 GB or 8 GB model)
+* Other essentials:
+    * Two USB-C cables
+    * A FAT32 formated MicroSD card (at least 16GB)
 
 
 <details>
 <summary>Initial Connections</summary>
 <div class="content">
 
-1.  power
+<Figure
+    src={labledAUPZU3}
+    alt="AUP-ZU3 Board with labled components"
+    caption="Figure 1: AUP-ZU3 Board"
+    />
 
-    *   identify the power USB
-    *   on/off switch
-    *   word about power block (looks like a phone charger but it
-        uses USB-C protocol and requires a 45W transformer)
+1.  Power
 
-2.  debugging
+    At first glance, you'll spot two USB-C ports. As per experience, in using simpler
+    FPGA boards, one would assume that the one labled `PROG UART` is enough to power
+    up the board, with `EXT PWR` as optional. Not here. Save yourself a day of
+    head-scratching (ask me how I know T_T) and survey the [refernce manual](https://www.realdigital.org/hardware/aup-zu3)
+    first. Leading to the correct port for power being `EXT PWR`, just to the right of
+    the SD card socket.
 
-    *   serial console
-    *   JTAG
+    As for the power source — this board is picky. It will needs a USB-C adapter that delivers
+    9V at 3A. That’s at least 27W, so your random phone charger won’t cut it. The otional
+    kit includes a suitable adapter, but I used a 30W unit that meets the spec just fine.
+
+    Last step: flip the `USB PWR` switch to ON.
+
+2.  Programming/Debugging
+    Two main ways to talk to the board:
+    *   Serial console — text-based window
+    *   JTAG — via the `PROG UART` USB-C port
 
 3.  SD memory card
 
-    *   technically, it is a microSD (not roughly 3cm x 2cm)
-    *   card can move between the ZU3's microSD slot and a
-        reader, either a built-in laptop/desktop reader
-        or an external USB reader; people say reader but all
-        of them read and write
+    The MicroSD card can boot the board. The card can bounce between the ZU3's
+    slot and your computer using a built-in reader or a USB adapter.
 
-There is a switch below the microSD slot the selects the default
-boot mode:  "JTAG" means wait for JTAG commands (over the USB cable)
-and "SD" means immediately look for a BOOT.BIN file and start
-the power-up sequence with its contents.
+    Right below the `MICRO SD` slot lies the boot switch, use it to select either:
+    * SD: ZU3 will automatically load the BOOT.BIN file, if card is properly formatted
+    * JTAG: ZU3 will wait for commands over USB
 
 </div>
 </details>
@@ -62,87 +83,72 @@ the power-up sequence with its contents.
 <summary>Welcome to the Board!</summary>
 <div class="content">
 
-Before we even try to create our first custom computing machine
-or even write our first C program, let's load an existing design
-and look at some of the peripherals.
+Before trekking out on our own, let's load an existing design
+and survey some of the peripherals.
 
-1.  Download this BOOT.BIN file.
+1.  Download one of the BOOT.BIN files below:
+* <DownloadButton fileUrl={bootBin4gb} label="4GB BOOT.BIN" fileName="BOOT.bin" />
+* <DownloadButton fileUrl={bootBin8gb} label="8GB BOOT.BIN" fileName="BOOT.bin" />
 
-2.  Put the SD card into a laptop/desktop computer with a reader
-    and when the card is detected, look for the first partition.
+2.  Insert the MicroSD card into an SD reader on a computer. If it’s not formatted,
+    here are a couple of quick tutorials:
+    * [Format to FAT32 Windows 10 or 11](https://www.youtube.com/watch?v=yRsjenGlsNo)
+    * [Format FAT32 in Ubuntu](https://www.youtube.com/watch?v=yQ_BcnZA0Z8)
 
-3.  Copy this BOOT.BIN file over top of the existing BOOT.BIN on
-    card.  (If it is a brand new card; you may need to format it
-    and prepare the right partitions ... see ??? Digilent? Real Digital?)
+3.  Once the card has been detected copy the BOOT.BIN file in the root of the card.
 
-4.  On the board, set the power switch off.  Plug the power block
-    into an electrical socket, plug in the USB-C cable to the block
-    and the other end into the board.
+4.  Make sure the power switch on the board is off. Plug the USB-C cable with the adapter (power block)
+    into the `EXT PWR` port. (I'm assuming you've plugged the adapter into a power source)
 
-5.  Move/insert the microSD card into the ZU3's microUSB slot.
-    (face side ... up?)
+5.  Insert the MicroSD card, face side up, into the ZU3's `MICRO SD` slot. Since the `BOOT`
+    switch is right under the slot, let's check to make sure it's flipped to `SD` boot mode
+    (not `JTAG`).
 
-6.  Using a second USB-C cable, plug one end into a computer.  Even
-    without powering on the board, one or two new (virtual) Serial Port(s)
-    will appear.  On Linux, this will be something like "/dev/ttyUSB0"
-    and "/dev/ttyUSB1".  On Windows ... control panel or something ...
-    and show up as COM99 ... ???
+6.  With the board still off, take the second USB-C cable and insert one end into a computer
+    and the other end into the `PROG UART` port of the ZU3. New serial ports appear should
+    pop up on your computer (a good sign that the board is alive).
+    * In windows you can find this in Device Manager under the Ports tab as USB Serial Port
+      COM8 (or another number)
+    * On Linux, it will be something like "/dev/ttyUSB0" and "/dev/ttyUSB1"
 
-7.  Next you need a (virtual) terminal application; also know as a terminal
-    emulator.  There are lots and lots
-    to choose from and nowadays most IDEs have one built into them
-    (somewhere).  For Linux, I like gtkterm because it is very simple,
-    supports all the basic stuff an embedded systems programmer
-    might want.  (You can use stty and directly access the serial
-    device with ordinary Unix commands as well which is not a bad
-    trick to learn if you want a cheap easy way to collect data
-    from an experiment.)  For windows, PuTTY is a good option and
-    it does a lot more than just terminal emulation.  TeraTerm,
-    X, Y, and Z are all Windows options as well...
+7.  At this point you will need a terminal emulator application, there are many to choose from.
+    For Windows I use either Putty or Tera Term, and for Linux you can use gtkterm. They are
+    easy to use and simple to configure for the applications you might need them for.
 
-    Using the tool of your choice, open the terminal and set the
-    port options.  At minimum, you need to set the serial port
-    and UART confirations.  For Linux, this is the second USB port
-    with UART configured for 115,200 baud rate, 8 bit words, no parity,
-    and 1 stop bit.
-    For Windows ... I have no idea ... it is one of the COM ports
-    that pop up and same UART configuration.
+    Once you have chosen the tool of your choice, configure the terminal for a serial port
+    connection and UART. Set the port conection to serial port being used (COM8 on Windows
+    or the second USB port on Linux), with UART configured with:
+    * A baud rate/speed of 115,200
+    * 8 bit words
+    * 1 stop bit
+    * No parity
+    * No flow control
+    We're keeping stuff minimal here.
 
     It should look something like this ...
 
-8.  Now we are ready!  Flip the power switch to on!
+8.  At last, the last step of our journey! Flip that switch on!
+    * The power light should turn on (screen shot)
+    * The "programmed" light should turn on after 2-3 second delay (this indicates the
+      programmable logic was configured)
+    * On the terminal window ... the welcome greeting should show up
+    * Now just follow the instructions in the terminal window to interact with some of
+      the features on the board
+    * Feel free to flip the power switch off at any point to disconnect the board.
+      Also, if you press the reset button (near the top of the board) it will just start
+      the program over.
 
-    *   the power light should go on 
-        (screen shot)
-
-    *   the "programmed" light should turn on after 2-3 second delay
-        (this indicates the programmable logic was configured)
-
-    *   on the terminal window ... the welcome greeting should show
-        up
-
-    *   you can follow instructions in the terminal window to see
-        some of the features on the board demonstrated
-
-    *   at any point you can simple flip the power switch to off
-        and disconnect the board
-
+    Congrats, you’ve officially powered up and met the AUP-ZU3.
 </div>
 </details>
 
-## What Did We Learn?
+## Lessons from the Field
 
-So what did we do in this exercise?  Hopefully, you now see how
-connect up the board.  You learned what a couple of the switches
-do.  You were able to get a terminal window open, which will be
-helpful when debugging your designs.  And hopefully you learned
-how to avoid a few pit-falls.  These are all useful skills so that
-when you go to do your first design or project, this part of testing
-your design is not going to be brand new.  In other blog entries,
-we don't bother to create a BOOT.BIN and transfer the image from
-a computer to the board on a microSD.  Instead, we'll use the
-JTAG port and transfer the image directly over the cable from
-the computer to the board.  However, you always have the option
-of making and using the microSD route.
+In this exercise we got to experience using the AUP-ZU3 first hand. We went through how
+to correctly set up and connect the board, open terminal window (will be especially useful
+when debugging designs), and tested switches, buttons, white LEDs, and RGB LEDs (all from the PL side).
+Hopefully these notes will help you save you from a few of the pitfalls I stumbled into. 
 
-
+One last note: future entries won't rely on BOOT.BIN files and MicroSD cards to boot the board up. 
+We'll the `JTAG` boot mode to directly program the board from the computer. If you really want to use
+the MicroSD option then you can always build your own BOOT.BIN 😅.
