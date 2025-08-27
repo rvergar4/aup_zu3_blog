@@ -14,6 +14,19 @@ import bootBin8gb  from './8GBBootBin/BOOT.bin?url';
 
 import Figure from '../../../components/Figure.astro';
 import labledAUPZU3 from './aupzu3Labels.png';
+import gearCheck from './tools.jpg';
+import boardConnection from './connection.jpg';
+import stillBoard from './stillBoard.png';
+import btnsMode from './buttonsMode.mp4';
+import swMode from './switchesMode.mp4';
+import bothMode from './bothMode.mp4';
+import comTer from './comTerminal.png';
+import teraConfig1 from './teraTermConfig1.png';
+import teraConfig2 from './teraTermConfig2.png';
+import teraConfig3 from './teraTermConfig3.png';
+import puttyConfig1 from './puttyConfig1.png';
+import puttyConfig2 from './puttyConfig2.png';
+
 
 This is a 5-min introduction to AMD's University Program's
 adaptive computing board, the AUP-ZU3 with no coding
@@ -35,6 +48,12 @@ peripherals.
     * Two USB-C cables
     * A FAT32 formated MicroSD card (at least 16GB)
 
+<Figure
+src={gearCheck}
+alt="AUP-ZU3 board with a MicroSD card, an SD card reader, two USB-C cables, and a USB-C adapter"
+caption="Figure 1: Gear Check"
+/>
+
 
 <details>
 <summary>Initial Connections</summary>
@@ -43,7 +62,7 @@ peripherals.
 <Figure
     src={labledAUPZU3}
     alt="AUP-ZU3 Board with labled components"
-    caption="Figure 1: AUP-ZU3 Board"
+    caption="Figure 2: AUP-ZU3 Board"
     />
 
 1.  Power
@@ -111,6 +130,13 @@ and survey some of the peripherals.
       COM8 (or another number)
     * On Linux, it will be something like "/dev/ttyUSB0" and "/dev/ttyUSB1"
 
+<Figure
+    src={boardConnection}
+    alt="AUP-ZU3 Board connection setup"
+    caption="Figure 3: AUP-ZU3 Board Connection Setup"
+    width={400}
+    />
+
 7.  At this point you will need a terminal emulator application, there are many to choose from.
     For Windows I use either Putty or Tera Term, and for Linux you can use gtkterm. They are
     easy to use and simple to configure for the applications you might need them for.
@@ -123,9 +149,57 @@ and survey some of the peripherals.
     * 1 stop bit
     * No parity
     * No flow control
-    We're keeping stuff minimal here.
 
-    It should look something like this ...
+    We're keeping stuff minimal here. It should look something like this:
+    ### In Tera Term
+
+    <div class="figure-row">
+    <Figure
+        src={teraConfig3}
+        hoverSrc={teraConfig3}
+        alt="Tera Term terminal connection window"
+        caption="Figure 4: Tera Term Terminal Window: New Connection"
+        width={350}
+    />
+    <Figure
+        src={teraConfig1}
+        hoverSrc={teraConfig1}
+        alt="Tera Term terminal window additional settings terminal tab"
+        caption="Figure 5: Tera Term Terminal Window Terminal Configuration"
+        width={350}
+    />
+    <Figure
+        src={teraConfig2}
+        hoverSrc={teraConfig2}
+        alt="Tera Term terminal window additional settings serial port tab"
+        caption="Figure 6: Tera Term Terminal Window Serial Port Configuration"
+        width={350}
+    />
+    </div>
+    * In the `New Connection` window choose the Serial option and select the port you are using
+    * Click on `Setup` tab to get to the `Additional settings`
+    * Once finished setting up click `OK`
+
+    ### In Putty
+
+    <div class="figure-row">
+    <Figure
+        src={puttyConfig1}
+        hoverSrc={puttyConfig1}
+        alt="PuTTY session configuration"
+        caption="Figure 7: PuTTY Session Configuration"
+        width={350}
+    />
+    <Figure
+        src={puttyConfig2}
+        hoverSrc={puttyConfig2}
+        alt="PuTTY connection serial configuration"
+        caption="Figure 8: PuTTY Serial Connection Configuration"
+        width={350}
+    />
+    </div>
+
+    * Once finished setting up the configuration click `Open`
 
 8.  At last, the last step of our journey! Flip that switch on!
     * The power light should turn on (screen shot)
@@ -137,6 +211,36 @@ and survey some of the peripherals.
     * Feel free to flip the power switch off at any point to disconnect the board.
       Also, if you press the reset button (near the top of the board) it will just start
       the program over.
+
+  <Figure
+    src={comTer}
+    alt="Terminal window output"
+    caption="Figure 4: Terminal Window Ouput"
+  />
+
+<div class="figure-row">
+  <Figure
+    src={stillBoard}
+    hoverSrc={btnsMode}
+    alt="AUP-ZU3 controlling RGB LEDs with the four buttons"
+    caption="Figure 5: Contolling the RGB LEDs with buttons"
+    width={250}
+  />
+  <Figure
+    src={stillBoard}
+    hoverSrc={swMode}
+    alt="AUP-ZU3 controlling white LEDs with the switches"
+    caption="Figure 6: Contolling the white LEDs with the seven switches"
+    width={250}
+  />
+  <Figure
+    src={stillBoard}
+    hoverSrc={bothMode}
+    alt="AUP-ZU3 controlling LEDs with the four buttons and seven switches"
+    caption="Figure 7: Contolling the LEDs with buttons and switches"
+    width={250}
+  />
+</div>
 
     Congrats, you’ve officially powered up and met the AUP-ZU3.
 </div>

@@ -24,6 +24,14 @@ const { pageTitle } = Astro.props;
       <script>
         import "../scripts/menu.js";
       </script>
+      <script is:inline>
+        document.addEventListener("DOMContentLoaded", () => {
+          document.querySelectorAll("a[href^='http']").forEach(link => {
+            link.setAttribute("target", "_blank");
+            link.setAttribute("rel", "noopener noreferrer");
+          });
+        });
+      </script>
     </div>
   </body>
 </html>

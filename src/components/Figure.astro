@@ -1,15 +1,110 @@
 ---
-let { src, alt, caption, width = "500", link } = Astro.props;
+let { src, alt, caption, width = 500, link, hoverSrc } = Astro.props;
 
+//normalize
 if (typeof src === "object" && src?.src) {
-  link ??= src.src;
   src = src.src;
 }
-link ??= src;
+if (typeof hoverSrc === "object" && hoverSrc?.src) {
+  hoverSrc = hoverSrc.src;
+}
+
+//open the hoverSrc if present, if not then src
+link ??= hoverSrc ?? src;
+
+const maxWidth =
+  typeof width === "number" ? `${width}px`
+  : /^\d+$/.test(String(width)) ? `${width}px`
+  : String(width);
+
+const isVideo = hoverSrc && /\.(mp4|webm)$/i.test(hoverSrc);
 ---
-<figure>
+<figure class="figure">
   <a href={link} target="_blank">
-    <img src={src} width={width} alt={alt} />
+    {hoverSrc ? (
+      isVideo ? (
+        //video hover version
+        <div class="video-wrapper" style={`max-width:${maxWidth}; width:${maxWidth};`}>
+          <video
+            src={hoverSrc}
+            muted
+            loop
+            playsinline
+            preload="metadata"
+            class="hover-video"
+          />
+          <img src={src} alt={alt} class="still" loading="lazy" />
+        </div>
+      ) : (
+        //image hover version (GIF or alternate still)
+        <div class="hover-wrapper" style={`max-width:${maxWidth}; width:${maxWidth};`}>
+          <img src={src} alt={alt} class="still" loading="lazy" />
+          <img src={hoverSrc} alt="" aria-hidden="true" class="hover" />
+        </div>
+      )
+    ) : (
+      //plain image fallback
+      <img src={src} alt={alt} style={`max-width:${maxWidth}; width:100%; height:auto;`} loading="lazy" />
+    )}
   </a>
   {caption && <figcaption>{caption}</figcaption>}
 </figure>
+
+<style>
+  .figure { margin: 0; }
+
+  /*image hover (GIF) */
+  .hover-wrapper {
+    position: relative;
+    width: 100%;
+  }
+  .hover-wrapper img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  .hover-wrapper .hover {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity .25s ease;
+  }
+  .hover-wrapper:hover .hover {
+    opacity: 1;
+  }
+
+  /*video hover */
+  .video-wrapper {
+    position: relative;
+    width: 100%;
+  }
+  .hover-video {
+    width: 100%;
+    height: auto;
+    display: block;
+    opacity: 0;
+    position: absolute;
+    inset: 0;
+    transition: opacity .25s ease;
+    pointer-events: none; /* so clicks go to the <a> */
+  }
+  .video-wrapper .still {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  .video-wrapper:hover .hover-video {
+    opacity: 1;
+  }
+</style>
+
+<script>
+  //play/pause videos on hover
+  document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll(".hover-video").forEach(video => {
+      const wrapper = video.closest(".video-wrapper");
+      wrapper.addEventListener("mouseenter", () => video.play());
+      wrapper.addEventListener("mouseleave", () => video.pause());
+    });
+  });
+</script>

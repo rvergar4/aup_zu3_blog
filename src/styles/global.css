@@ -171,7 +171,7 @@ a:visited {
     font-weight: bold;
   }
 
-p > code {
+code {
   padding: 4px;
   border-radius: 4px;
   background: #e0ded8;
@@ -179,7 +179,7 @@ p > code {
   direction: ltr;
   font-size: 14px;
 }
-html.dark p > code {
+html.dark code {
   background: #2b2a26;
   color: #d4d3e2;
 }
@@ -193,4 +193,11 @@ html.dark p > code {
 .dark .astro-code {
   background-color: #011627 !important; /* night-owl background */
   color: #d6deeb !important;
+}
+
+.figure-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  justify-items: center;
 }
