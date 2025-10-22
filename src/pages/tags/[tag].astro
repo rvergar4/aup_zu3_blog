@@ -21,12 +21,34 @@ export async function getStaticPaths() {
 }
 
 const { tag } = Astro.params;
-const { posts } = Astro.props;
+let { posts } = Astro.props;
+
+//difficulty order
+const difficultyOrder = ["beginner", "simple projects", "intermediate", "advanced"];
+
+//get difficulty
+function getDifficultyIndex(post) {
+  const tags = post.data.tags?.map(t => t.toLowerCase()) || [];
+  const index = difficultyOrder.findIndex(diff => tags.includes(diff));
+  return index === -1 ? difficultyOrder.length : index;
+}
+
+//sort by difficulty and date
+posts = posts.sort((a, b) => {
+  const diffA = getDifficultyIndex(a);
+  const diffB = getDifficultyIndex(b);
+
+  if (diffA !== diffB) return diffA - diffB;
+  return a.data.pubDate.valueOf() - b.data.pubDate.valueOf();
+});
 ---
 
 <BaseLayout pageTitle={tag}>
   <p>Posts tagged with {tag}</p>
   <ul>
-    { posts.map((post) => <BlogPost url={`${basePath}posts/${post.id}/`} title={post.data.title} />) }
+    { posts.map((post) => <BlogPost 
+                          url={`${basePath}posts/${post.id}/`} 
+                          title={post.data.title} 
+                          />) }
   </ul>
 </BaseLayout>
