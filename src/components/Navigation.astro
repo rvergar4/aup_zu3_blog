@@ -1,7 +1,8 @@
 ---
+import { basePath } from "../config";
 ---
 <div class="nav-links">
-    <a href="/">Home</a>
-    <a href="/blog/">Blog</a>
-    <a href="/tags/">Tags</a>
+  <a href={basePath}>Home</a>
+  <a href={`${basePath}blog/`}>Blog</a>
+  <a href={`${basePath}tags/`}>Tags</a>
 </div>

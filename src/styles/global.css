@@ -26,8 +26,10 @@ html.dark {
   background-size: 20px 20px;
   color: #e2ded3;
 }
-html.dark a:hover {
-  background-color: #2d2a25;
+
+.dark .nav-links a:hover, 
+.dark .nav-links a:focus {
+  background-color: #082c33;
 }
 
 .dark .nav-links a {

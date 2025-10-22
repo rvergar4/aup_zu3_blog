@@ -1,4 +1,6 @@
 ---
+//const basePath = "/~cmuntz/";
+import { basePath } from "../config";
 const { fileUrl, label = "Download", fileName } = Astro.props;
 ---
 
@@ -21,7 +23,7 @@ const { fileUrl, label = "Download", fileName } = Astro.props;
     onmouseout="this.style.backgroundColor='#51755d'"
   >
     <img
-      src="/assets/icons/downloadWhite.svg"
+      src={`${basePath}assets/icons/downloadWhite.svg`}
       alt=""
       style="width: 18px; height: 18px;"
     />

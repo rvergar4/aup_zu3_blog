@@ -7,6 +7,14 @@ import mdx from '@astrojs/mdx';
 
 // https://astro.build/config
 export default defineConfig({
+  site: "http://rsass-rcs.uncc.edu/~cmuntz/",
+  base: "/~cmuntz/",
+  outDir: "/home/cmuntz/public_html",
+  trailingSlash: "always",
+  build: { format: "directory",},
+  server: {
+      prerender: { crawlLinks: true,},
+  },
   markdown: {
       remarkPlugins:[
         remarkMath,

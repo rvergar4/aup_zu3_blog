@@ -1,4 +1,5 @@
 ---
+import { basePath } from '../config';
 let { src, alt, caption, width = 500, link, hoverSrc } = Astro.props;
 
 //normalize
@@ -10,20 +11,43 @@ if (typeof hoverSrc === "object" && hoverSrc?.src) {
 }
 
 //open the hoverSrc if present, if not then src
-link ??= hoverSrc ?? src;
+if (link == null) {
+  if (hoverSrc != null) {
+    link = hoverSrc;
+  } else {
+    link = src;
+  }
+}
 
-const maxWidth =
-  typeof width === "number" ? `${width}px`
-  : /^\d+$/.test(String(width)) ? `${width}px`
-  : String(width);
+const maxWidth = (() => {
+  if (typeof width === "number") {
+    return `${width}px`;
+  } else if (/^\d+$/.test(String(width))) {
+    return `${width}px`;
+  } else {
+    return String(width);
+  }
+})();
 
 const isVideo = hoverSrc && /\.(mp4|webm)$/i.test(hoverSrc);
+
+//for dev mode converts /@fs/C:/... to relative path starting from basePath
+const hrefLink = (() => {
+  if (typeof link === "string" && !link.startsWith("http")) {
+    if (link.startsWith(basePath)) {
+      return link;
+    } else {
+      return `${basePath}${link.replace(/^\/+/, "")}`;
+    }
+  } else {
+    return link;
+  }
+})();
 ---
 <figure class="figure">
-  <a href={link} target="_blank">
-    {hoverSrc ? (
+  <a href={hrefLink} target="_blank">
+    {hoverSrc && hoverSrc !== src ? (
       isVideo ? (
-        //video hover version
         <div class="video-wrapper" style={`max-width:${maxWidth}; width:${maxWidth};`}>
           <video
             src={hoverSrc}
@@ -36,15 +60,18 @@ const isVideo = hoverSrc && /\.(mp4|webm)$/i.test(hoverSrc);
           <img src={src} alt={alt} class="still" loading="lazy" />
         </div>
       ) : (
-        //image hover version (GIF or alternate still)
         <div class="hover-wrapper" style={`max-width:${maxWidth}; width:${maxWidth};`}>
           <img src={src} alt={alt} class="still" loading="lazy" />
           <img src={hoverSrc} alt="" aria-hidden="true" class="hover" />
         </div>
       )
     ) : (
-      //plain image fallback
-      <img src={src} alt={alt} style={`max-width:${maxWidth}; width:100%; height:auto;`} loading="lazy" />
+      <img
+        src={src}
+        alt={alt}
+        style={`max-width:${maxWidth}; width:${maxWidth}; height:auto;`}
+        loading="lazy"
+      />
     )}
   </a>
   {caption && <figcaption>{caption}</figcaption>}
@@ -53,7 +80,7 @@ const isVideo = hoverSrc && /\.(mp4|webm)$/i.test(hoverSrc);
 <style>
   .figure { margin: 0; }
 
-  /*image hover (GIF) */
+  /*image hover*/
   .hover-wrapper {
     position: relative;
     width: 100%;
@@ -86,7 +113,8 @@ const isVideo = hoverSrc && /\.(mp4|webm)$/i.test(hoverSrc);
     position: absolute;
     inset: 0;
     transition: opacity .25s ease;
-    pointer-events: none; /* so clicks go to the <a> */
+    /* so clicks go to the <a> */
+    pointer-events: none;
   }
   .video-wrapper .still {
     width: 100%;

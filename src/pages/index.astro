@@ -1,12 +1,13 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 const pageTitle = "Adaptive Computuing Field Notes";
+import { basePath } from "../config";
 ---
 
 <BaseLayout>
 	<div style="text-align: center;">
 		<img 
-			src='/assets/ACFN.png'
+			src={`${basePath}assets/ACFN.png`}
 			alt="AUP-ZU3 development board close-up"
 			style="width: 60%; max-width: 200px; height: auto;" 
 		/>

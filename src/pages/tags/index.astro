@@ -1,10 +1,13 @@
 ---
 import { getCollection } from "astro:content";
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { basePath } from "../../config";
+
 const allPosts = await getCollection("blog");
+const publishedPosts = allPosts.filter(post => !post.data.draft);
 const tagMap = new Map();
 
-for (const post of allPosts) {
+for (const post of publishedPosts) {
   const tags = post.data.tags || [];
   for (const tag of tags) {
     tagMap.set(tag, (tagMap.get(tag) || 0) + 1);
@@ -16,7 +19,7 @@ const tags = Array.from(tagMap.entries()).map(([name, count]) => ({ name, count 
 <BaseLayout pageTitle={pageTitle}>
     {tags.map((tag) => (
     <div class="tag">
-        <a href={`/tags/${tag.name}`}>{tag.name}</a>
+        <a href={`${basePath}tags/${tag.name}/`}>{tag.name}</a>
         <span class="tag-count">{tag.count}</span>
     </div>
     ))}    

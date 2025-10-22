@@ -2,6 +2,8 @@
 import Navigation from './Navigation.astro';
 import Hamburger from './Hamburger.astro';
 import ThemeIcon from './ThemeIcon.astro';
+//const basePath = "/~cmuntz/";
+import { basePath } from "../config";
 ---
 
 <header class="site-header">
@@ -11,9 +13,11 @@ import ThemeIcon from './ThemeIcon.astro';
   </div>
 
   <div class="header-main">
-    <a href="/">
-        <img src="/assets/ACFNImg.png" alt="Adaptive Computing Field Notes" class="site-logo" />
+    <a href={basePath}>
+        <img src={`${basePath}assets/ACFNImg.png`} 
+         alt="Adaptive Computing Field Notes" class="site-logo" 
+        />
     </a>
-    <Navigation />
+    <Navigation basePath={basePath} />
   </div>
 </header>

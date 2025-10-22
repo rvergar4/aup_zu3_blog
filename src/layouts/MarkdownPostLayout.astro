@@ -1,25 +1,89 @@
 ---
 import BaseLayout from './BaseLayout.astro';
-import { SITE } from "@config";
 const { frontmatter } = Astro.props;
-import Icon from './Icon.astro';
+import { basePath } from "../config";
+
 import Figure from '../components/Figure.astro';
 import CopyButton from '../components/CopyButton.astro';
 ---
 <BaseLayout pageTitle={frontmatter.title}>
     <div class="tags">
       {frontmatter.tags.map((tag: string) => (
-      <p class="tag"><a href={`/tags/${tag}`}>{tag}</a></p>
+      <p class="tag"><a href={`${basePath}tags/${tag}/`}>{tag}</a></p>
       ))}
     </div>
     <p class="description"><em>{frontmatter.description}</em></p>
     <p>Written by {frontmatter.author} • {frontmatter.pubDate.toLocaleDateString()}</p>
-    <img src={frontmatter.image.url} width="300" alt={frontmatter.image.alt} />
-    <slot />
+    <img src={`${basePath}${frontmatter.image.url}`} width="300" alt={frontmatter.image.alt} />
+    
+    <article>
+      <slot />
+    </article>
 </BaseLayout>
 
 <!-- Code Copy Button Script -->
-<CopyButton codeText={`# ACFN Log - July 27 Clipboard copy button working.`} />
+<script is:inline>
+  const basePath = "/~cmuntz/";
+  const copyWhite = `${basePath}assets/icons/copyWhite.svg`;
+  const copyCheck = `${basePath}assets/icons/copyCheckWhite.svg`;
+
+  document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll("article pre").forEach(pre => {
+      const wrapper = document.createElement("div");
+      wrapper.style.position = "relative";
+      pre.parentNode.insertBefore(wrapper, pre);
+      wrapper.appendChild(pre);
+
+      //create button
+      const button = document.createElement("button");
+      button.className = "copy-button";
+      button.title = "Copy code";
+      button.style = "position:absolute; top:8px; right:8px; background:none; border:none; cursor:pointer;";
+
+      const img = document.createElement("img");
+      img.src = copyWhite;
+      img.alt = "Copy code";
+      img.style.width = "20px";
+      img.style.height = "20px";
+
+      button.appendChild(img);
+      wrapper.appendChild(button);
+
+      //fallback
+      const fallbackCopy = (text) => {
+        const textarea = document.createElement("textarea");
+        textarea.value = text;
+        textarea.style.position = "absolute";
+        textarea.style.left = "-9999px";
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          document.execCommand("copy");
+          showCopied();
+        } catch {
+          alert("Copy failed. Clipboard not supported.");
+        }
+        document.body.removeChild(textarea);
+      };
+
+      //change icons when copied
+      const showCopied = () => {
+        img.src = copyCheck;
+        setTimeout(() => { img.src = copyWhite; }, 2000);
+      };
+
+      //copy handler
+      const handleCopy = (text) => {
+        if (navigator.clipboard?.writeText)
+          navigator.clipboard.writeText(text).then(showCopied).catch(() => fallbackCopy(text));
+        else
+          fallbackCopy(text);
+      };
+
+      button.addEventListener("click", () => handleCopy(pre.innerText));
+    });
+  });
+</script>
 
 <!-- Styling -->
 <style>

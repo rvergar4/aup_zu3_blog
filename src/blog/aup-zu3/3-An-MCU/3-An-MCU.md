@@ -3,9 +3,10 @@ title: 'Just a Microcontroller'
 pubDate: 2025-07-09
 description: 'How to configure the ZYNQ Ultrascale+ MPSoC hardware to be just a simple microcontroller and then create the (obligatory) "Hello, World!" software application.'
 author: 'Ron Sass <rsass@charlotte.edu>'
+draft: true
 image:
-  url: '/assets/aupzu3/aupzu3.png'
-  alt: 'Close up of the AUP-ZU3 FPGA development board.'
+  url: ''
+  alt: ''
 tags: ["AUP-ZU3", "Getting Started"]
 ---
 
