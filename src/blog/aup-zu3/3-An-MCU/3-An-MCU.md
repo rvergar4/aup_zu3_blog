@@ -7,7 +7,7 @@ draft: false
 image:
   url: ''
   alt: ''
-tags: ["AUP-ZU3", "Getting Started", "Beginner"]
+tags: ["AUP-ZU3", "Getting Started", "Simple Project"]
 ---
 
 This XYZ-min shows how to use the Vivado and Vitis tools
