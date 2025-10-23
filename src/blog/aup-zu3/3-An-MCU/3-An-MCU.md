@@ -3,11 +3,11 @@ title: 'Just a Microcontroller'
 pubDate: 2025-07-09
 description: 'How to configure the ZYNQ Ultrascale+ MPSoC hardware to be just a simple microcontroller and then create the (obligatory) "Hello, World!" software application.'
 author: 'Ron Sass <rsass@charlotte.edu>'
-draft: true
+draft: false
 image:
   url: ''
   alt: ''
-tags: ["AUP-ZU3", "Getting Started"]
+tags: ["AUP-ZU3", "Getting Started", "Beginner"]
 ---
 
 This XYZ-min shows how to use the Vivado and Vitis tools

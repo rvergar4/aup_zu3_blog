@@ -4,11 +4,11 @@ pubDate: 2025-07-12
 description: >
   The embedded programmer's equivalent to "Hello, World!" is Blinky ... here add some switches and LEDs to our basic microcontroller design and you can make manually make the LED blink if that\'s your thing. :-)
 author: 'Ron Sass <rsass@charlotte.edu>'
-draft: true
+draft: false
 image:
   url: ''
   alt: ''
-tags: ["AUP-ZU3", "Getting Started"]
+tags: ["AUP-ZU3", "Getting Started", "Beginner"]
 ---
 
 This XYZ-min shows how to use the vendor-provided board
