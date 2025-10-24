@@ -15,9 +15,13 @@ const publishedPosts = allPosts.filter(post => !post.data.draft);
 const sortedPosts = publishedPosts.sort((a, b) =>
   a.data.pubDate.valueOf() - b.data.pubDate.valueOf()
 );
-//get posts from certain directories
-const allAUPZU3Posts = sortedPosts.filter(post => post.id.startsWith('aup-zu3/'));
-const allOtherBoardPosts = sortedPosts.filter(post => post.id.startsWith('otherboard/'));
+
+//define boards
+const boards = [
+  {id: 'aup-zu3', label: 'AUP-ZU3', message: "The AUP-ZU3 has a lot to explore! Let's get started"},
+  {id: 'otherboard', label: 'Other Board'},
+  //add new boards here
+];
 
 //group by difficulty
 function groupByDifficulty(posts) {
@@ -47,8 +51,12 @@ function groupByDifficulty(posts) {
   return groups;
 }
 
-const groupedAUPZU3 = groupByDifficulty(allAUPZU3Posts);
-const groupedOther = groupByDifficulty(allOtherBoardPosts);
+//filter and group posts
+const groupedBoards = boards.map(board => {
+  //filter by board directory
+  const postsForBoard = sortedPosts.filter(post => post.id.startsWith(`${board.id}/`));
+  return { ...board, groupedPosts: groupByDifficulty(postsForBoard) };
+});
 ---
 
 <BaseLayout pageTitle={pageTitle}>
@@ -57,54 +65,43 @@ const groupedOther = groupByDifficulty(allOtherBoardPosts);
 
   <div class="stack-tabs">
     <!-- Inputs must come first -->
-    <input type="radio" name="tab" id="tab1" checked hidden />
-    <input type="radio" name="tab" id="tab2" hidden />
+   {groupedBoards.map((board, i) => (
+      <input type="radio" name="tab" id={`tab${i + 1}`} hidden checked={i === 0} />
+    ))}
+
     <!-- Then the labels -->
     <div class="tab-labels">
-      <label for="tab1">AUP-ZU3</label>
-      <label for="tab2">Other Board</label>
+      {groupedBoards.map((board, i) => (
+        <label for={`tab${i + 1}`}>{board.label}</label>
+      ))}
     </div>
+
     <!-- Then the panels -->
     <div class="card-panels">
+      {groupedBoards.map((board, i) => (
+        <section id={`card${i + 1}`}>
+          <div class="index-card">
+            <span class="index-card-label">{board.label} Blog</span>
+            <p>{board.message || "Explore this board!"}</p>
 
-      <section id="card1">
-        <div class="index-card">
-          <span class="index-card-label">AUP-ZU3 Blog</span>
-          <p>The AUP-ZU3 has a lot to explore! Let's get started</p>
-          {Object.entries(groupedAUPZU3).map(([difficulty, posts]) => (
-            posts.length > 0 && (
-              <>
-                <h3>{difficulty}</h3>
-                <ul>
-                  {posts.map(post => (
-                    <BlogPost url={`${basePath}posts/${post.id}/`} title={post.data.title} />
-                  ))}
-                </ul>
-              </>
-            )
-          ))}
-        </div>
-      </section>
-
-      <section id="card2">
-        <div class="index-card">
-          <span class="index-card-label">Other Board</span>
-          <p>This is another card with a different message.</p>
-          {Object.entries(groupedOther).map(([difficulty, posts]) => (
-            posts.length > 0 && (
-              <>
-                <h3>{difficulty}</h3>
-                <ul>
-                  {posts.map(post => (
-                    <BlogPost url={`${basePath}posts/${post.id}/`} title={post.data.title} />
-                  ))}
-                </ul>
-              </>
-            )
-          ))}
-        </div>
-      </section>
-
+            {Object.entries(board.groupedPosts).map(([difficulty, posts]) =>
+              posts.length > 0 && (
+                <>
+                  <h3>{difficulty}</h3>
+                  <ul>
+                    {posts.map((post) => (
+                      <BlogPost
+                        url={`${basePath}posts/${post.id}/`}
+                        title={post.data.title}
+                      />
+                    ))}
+                  </ul>
+                </>
+              )
+            )}
+          </div>
+        </section>
+      ))}
     </div>
   </div>
 </BaseLayout>
