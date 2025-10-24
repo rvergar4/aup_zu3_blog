@@ -151,6 +151,7 @@ Cards with tabs
   display: none;
 }
 
+/* Show the correct panel */
 #tab1:checked ~ .card-panels #card1,
 #tab2:checked ~ .card-panels #card2,
 #tab3:checked ~ .card-panels #card3, 
