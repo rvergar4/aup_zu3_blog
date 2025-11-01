@@ -1,0 +1,24 @@
+.tags {
+display: flex;
+flex-wrap: wrap;
+}
+
+.tag {
+margin: 0.25em;
+border: groove 1px #51755d;
+border-radius: .5em;
+padding: .3em .3em;
+font-size: 0.75em;
+background-color: #51755d;
+}
+
+.tag a {
+color: #ebe1ca;
+}
+.tag a:visited {
+color: #ebe1ca;
+}
+
+.tag:hover {
+    background-color: #3d5b47;
+}

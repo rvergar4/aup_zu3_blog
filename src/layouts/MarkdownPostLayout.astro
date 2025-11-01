@@ -2,6 +2,7 @@
 import BaseLayout from './BaseLayout.astro';
 const { frontmatter } = Astro.props;
 import { basePath } from "../config";
+import '../styles/tags.css';
 
 import Figure from '../components/Figure.astro';
 import CopyButton from '../components/CopyButton.astro';
@@ -84,30 +85,6 @@ import CopyButton from '../components/CopyButton.astro';
     });
   });
 </script>
-
-<!-- Tags styling -->
-<style>
-  a {
-    color: #ebe1ca;
-  }
-  a:visited {
-    color: #ebe1ca;
-  }
-
-  .tags {
-    display: flex;
-    flex-wrap: wrap;
-  }
-
-  .tag {
-    margin: 0.25em;
-    border: groove 1px #51755d;
-    border-radius: .5em;
-    padding: .3em .3em;
-    font-size: 0.75em;
-    background-color: #51755d;
-  }
-</style>
 
 <!-- Optional: KaTeX (math rendering) -->
 <link
