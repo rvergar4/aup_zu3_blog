@@ -3,43 +3,35 @@ import { getCollection } from "astro:content";
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { basePath } from "../../config";
 
+//get all posts
 const allPosts = await getCollection("blog");
+//filter out drafts
 const publishedPosts = allPosts.filter(post => !post.data.draft);
+//map to count how many times each tag appears
 const tagMap = new Map();
 
+//going through each published post
 for (const post of publishedPosts) {
+  //gets tags from post
   const tags = post.data.tags || [];
+  //incrementing each tag count
   for (const tag of tags) {
     tagMap.set(tag, (tagMap.get(tag) || 0) + 1);
   }
 }
+//array for tags [name, count]
 const tags = Array.from(tagMap.entries()).map(([name, count]) => ({ name, count }));const pageTitle = "Tag Index";
 ---
 
 <BaseLayout pageTitle={pageTitle}>
-    {tags.map((tag) => (
+    {tags.map((tag) => (    
     <div class="tag">
         <a href={`${basePath}tags/${tag.name}/`}>{tag.name}</a>
         <span class="tag-count">{tag.count}</span>
     </div>
     ))}    
     <style>
-        a {
-            color: #ebe1ca;
-            text-decoration: none;
-        }
-        a:visited {
-            color: #ebe1ca;
-        }
-
-        .tags {
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-            max-width: 600px;
-            margin: 2rem auto;
-            padding: 0;
-        }
+        /* Rows */
         .tag {
             display: flex;
             justify-content: space-between;
@@ -60,7 +52,7 @@ const tags = Array.from(tagMap.entries()).map(([name, count]) => ({ name, count 
             text-decoration: none;
             flex-grow: 1;
         }
-
+        /* The circle (encasing the post count) */
         .tag-count {
             background-color: #3d5b47;
             border-radius: 999px;
@@ -68,47 +60,9 @@ const tags = Array.from(tagMap.entries()).map(([name, count]) => ({ name, count 
             font-size: 0.85em;
             margin-left: 1em;
         }
-
+        /* Hovering over rows */
         .tag:hover {
             background-color: #3d5b47;
-        }
-        .tags-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-            gap: 1rem;
-            padding: 1rem;
-            margin-top: 2rem;
-        }
-
-        .tag-card {
-            background: #e6e0d4;
-            border: 2px solid #51755d;
-            border-radius: 0.75em;
-            padding: 1rem;
-            box-shadow:
-                2px 2px 0px #c3bea4,
-                4px 4px 0px #c3bea4;
-            transition: all 0.15s ease-in-out;
-            text-align: center;
-        }
-
-        .tag-card:hover {
-            transform: translate(-2px, -2px);
-            box-shadow:
-                4px 4px 0px #9f9a81,
-                6px 6px 0px #9f9a81;
-        }
-
-        .tag-card h2 {
-            margin: 0;
-            font-size: 1.25rem;
-            font-weight: 600;
-        }
-
-        .tag-card p {
-            margin: 0.5em 0 0;
-            font-size: 0.95rem;
-            color: #444;
         }
         </style>
 </BaseLayout>
