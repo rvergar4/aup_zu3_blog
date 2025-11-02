@@ -35,11 +35,14 @@ import CopyButton from '../components/CopyButton.astro';
       pre.parentNode.insertBefore(wrapper, pre);
       wrapper.appendChild(pre);
 
+      pre.style.padding = "1.1rem";
+      pre.style.borderRadius = "2px";
+
       //create button
       const button = document.createElement("button");
       button.className = "copy-button";
       button.title = "Copy code";
-      button.style = "position:absolute; top:8px; right:8px; background:none; border:none; cursor:pointer;";
+      button.style = "position:absolute; top:2px; right:2px; background:none; border:none; cursor:pointer;";
 
       const img = document.createElement("img");
       img.src = copyWhite;
