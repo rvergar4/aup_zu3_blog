@@ -15,7 +15,7 @@ import CopyButton from '../components/CopyButton.astro';
     </div>
     <p class="description"><em>{frontmatter.description}</em></p>
     <p>Written by {frontmatter.author} • {frontmatter.pubDate.toLocaleDateString()}</p>
-    <img src={`${basePath}${frontmatter.image.url}`} width="300" alt={frontmatter.image.alt} />
+    <img src={`${basePath}${frontmatter.image.url}`} width={frontmatter.image.width} alt={frontmatter.image.alt} />
     
     <article>
       <slot />
