@@ -1,68 +1,191 @@
 ---
 title: 'Board Files'
 pubDate: 2025-07-12
-description: 'how to install 3rd part board descriptions in Vivado to simplify the integration of on-board peripherals; most tutorials assume these files have been installed'
-author: 'Ron Sass <rsass@charlotte.edu>'
+description: 'How to install third-party board descriptions in Vivado to simplify
+              the integration of on-board peripherals. Most tutorials assume these files have
+              been installed.'
+author: 'Rosa Vergara'
 draft: false
 image:
-  url: ''
-  alt: ''
+  url: 'src/blog/aup-zu3/2-Board-files/vivadoStart.png'
+  alt: 'Vivado 2024.2 start window showing Quick Start options'
+  width: 600
 tags: ["AUP-ZU3", "Installation Note", "Getting Started", "Beginner"]
 ---
+import Figure from '../../../components/Figure.astro';
+import extractedFiles from './extractionComplete.png';
+import extractTo from './extractTo.png';
+import selectBoard from './boardSelect.png';
 
-This very short "how to" shows how to install a "boards file"
+Sometimes the smallest step turns out to be the most necessary one. Before
+Vivado can build anything for our board, it first needs to know the board
+exists.
+
+This very short "how to" shows how to install a "board file"
 for Vivado, especially if it is not in the Xilinx Board Store.
 
-AMD's Vivado tool works just fine if you just specify which chip
-you are using (AMD knows every detail of the ICs it manufactures).
-However, many third-parties put AMD chips on Printed Circuit
-Boards (PCBs) and there is no way for Vivado to know how the pins
-on the packaged IC are wired to other components on the PCB ---
-unless the PCB manufacturer tells Vivado.  That's exactly what
-the "board file" does.  Inside the GUI, a wizard will walk a
-user through the one-time process.  However it does not install
-the files system-wide and not every board is in the wizard's
-catalog.  For these cases, use these instructions.
+Vivado already knows everything about AMD’s devices, the pins, timing, and
+silicon details. What it doesn’t know is how those chips are connected once
+they’re placed on a board. Many third-party vendors design custom PCBs with AMD
+parts, and the only way for Vivado to understand those connections is through a
+board file. The Vivado GUI includes a wizard that can install these files
+temporarily, but it doesn’t make them available system-wide. And not every
+third-party board (like the AUP-ZU3) is listed in the catalog. For those cases,
+use the steps below.
 
 ## Objective
 
-(1) decide what kind of install (per-user or system-wide) and (2)
-how to copy the files
+Before building designs or running software, we first need to make sure Vivado
+knows about our board. In this short exercise, we’ll download and install the
+AUP-ZU3 board files so Vivado can recognize the board by name when we create
+new projects. Once that’s done, the board will appear in Vivado’s Board list,
+ready for use in future projects.
 
 ## Pre-Requisites
 
-*   Vivado already installed 
-
-*   board file archive from 3rd party vendor
-
-*   basic UNIX command-line tools
+* Vivado already installed (I'm using version 2024.2)
+* Board file archive
+* Basic familiarity with file paths or command-line tools
 
 <details>
-<summary>1. Hardware Configuration</summary>
+<summary>1. Download the Board Files</summary>
 <div class="content">
 
-something something something ... XSA
+For this example, we’ll be using the AUP-ZU3 board files. You can download
+them by going to the <a href="https://www.realdigital.org/hardware/aup-zu3" 
+                        target="_blank" 
+                        rel="noopener noreferrer">
+                        Real Digital
+                     </a> site (in the Resources tab) or their <a href="https://github.com/RealDigitalOrg/aup-zu3-bsp/tree/master/board-files" 
+                                                                  target="_blank" 
+                                                                  rel="noopener noreferrer">
+                                                                  Github repository
+                                                                </a>.
+
+After downloading, you should have a tar file named something like: 
+
+`aup-zu3-board-files.tar`
+
+Inside, you’ll see a directory containing `board.xml`, `preset.xml`, and other
+related configuration files:
+
+```
+aup-zu3-board-files/
+├── aup_zu3/1.0/
+|   ├── board.xml
+|   ├── part0_pins.xml
+|   ├── preset.xml
+|   └── xitem.json
+└── aup-zu3-8gb/1.0/
+```
 
 </div>
 </details>
 
 
 <details>
-<summary>2. Software Executable</summary>
+<summary>2. Locate the Board Store</summary>
 <div class="content">
 
-something something something ... ELF
+After a bit of digging, and with help from an <a href="https://adaptivesupport.amd.com/s/article/The-board-file-location-with-the-latest-Vivado-tools?language=en_US" 
+                                                 target="_blank" 
+                                                 rel="noopener noreferrer">
+                                                 AMD support article
+                                              </a>,
+I found where Vivado keeps its board store tucked away. According to this article Vivado
+2021.2 and newer store board files here:
+
+```
+<Vivado Install>\<Vivado_version>\data\xhub\boards\XilinxBoardStore\boards\Xilinx\
+```
+
+On my Windows system with Vivado 2024.2:
+
+```
+C:\Xilinx\Vivado\2024.2\data\xhub\boards\XilinxBoardStore\boards\Xilinx\
+```
+
+On Linux:
+```
+/opt/Xilinx/Vivado/<version>/data/boards/XilinxBoardStore/boards/Xilinx/
+```
+
+Replace `<version>` with the Vivado release you’re using (for example, `2024.2`)
+
+*(Note: Older versions' board file location is*
+
+`<VivadoInstall>\<Vivado_version>\data/boards\board_files\`)
 
 </div>
 </details>
 
 <details>
-<summary>3. Download and Debug</summary>
+<summary>3. Copy the Files</summary>
 <div class="content">
 
-Connect - download - run or debug
+Once you know where the board store lives, copy the downloaded files into it.
+I extracted the board files into the folder located above.
+
+<div class="figure-row">
+<Figure
+    src={extractTo}
+    alt="Extract archive window"
+    caption="Figure 1: Unpacking the AUP-ZU3 board files"
+    width={300}
+/>
+<Figure
+    src={extractedFiles}
+    alt="File explorer window showing extracted board files"
+    caption="Figure 2: Extracted Board Files"
+    width={400}
+/>
+</div>
+
+Or, unzip the archive and drop the folders right into said Xilinx directory.
+
+Example:
+
+Windows CMD:
+```cmd
+xcopy "C:\Users\<UserName>\Downloads\aup-zu3-board-files" "C:\Xilinx\Vivado\2024.2\data\xhub\boards\XilinxBoardStore\boards\Xilinx\aup-zu3-board-files\" /E /I
+```
+
+Or in Linux:
+```bash
+sudo cp -r /home/<UserName>/Downloads/aup-zu3-board-files /opt/Xilinx/Vivado/2024.2/data/boards/XilinxBoardStore/boards/Xilinx/
+```
 
 </div>
 </details>
 
+<details>
+<summary>4. Verify Installation</summary>
+<div class="content">
 
+Time for a quick check:
+
+1. Launch Vivado and start a new project:
+2. Choose Boards instead of Parts
+3. The AUP-ZU3 board should now appear in the list
+
+<Figure
+  src={selectBoard}
+  alt="New Project window selecting part section"
+  caption="Figure 3: The AUP-ZU3 now appears in Vivado’s board list — installation complete"
+/>
+
+If it doesn’t:
+* Make sure the folder structure is correct
+* Confirm you placed the files in a `boards/Xilinx` subdirectory
+* Restart Vivado and check again
+
+</div>
+</details>
+
+## Field Summary
+
+A short detour, but a necessary one. With the board files in place, Vivado is
+now board-aware, ready to set pins, presets, and interfaces automatically.
+
+Next time you start a new project, the AUP-ZU3 will be there waiting in the
+list, a small but satisfying victory on the embedded frontier.
