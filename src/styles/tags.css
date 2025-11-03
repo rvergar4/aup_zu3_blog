@@ -19,6 +19,13 @@ color: #ebe1ca;
 color: #ebe1ca;
 }
 
+html.dark .tag a {
+color: #ebe1ca;
+}
+html.dark .tag a:visited {
+color: #ebe1ca;
+}
+
 .tag:hover {
     background-color: #3d5b47;
 }
