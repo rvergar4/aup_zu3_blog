@@ -1,26 +1,33 @@
 ---
 const basePath = "/~cmuntz/";
+//const basePath = import.meta.env.BASE_URL || '/';
 ---
+<div id="copy-button-config"
+     data-copywhite={`${basePath}assets/icons/copyWhite.svg`}
+     data-copycheck={`${basePath}assets/icons/copyCheckWhite.svg`}>
+</div>
+
 <script is:inline>
-document.addEventListener("DOMContentLoaded", () => {
-  const copyWhite = `${basePath}assets/icons/copyWhite.svg`;
-  const copyCheck = `${basePath}assets/icons/copyCheckWhite.svg`;
 
-    document.querySelectorAll("pre > code").forEach(code => {
-      const pre = code.parentElement;
-      if (pre.dataset.hasCopyButton) return; // avoid duplicates
-      pre.dataset.hasCopyButton = true;
+  document.addEventListener("DOMContentLoaded", () => {
+    const config = document.getElementById("copy-button-config");
+    const copyWhite = config.dataset.copywhite;
+    const copyCheck = config.dataset.copycheck;
 
+    document.querySelectorAll("article pre").forEach(pre => {
       const wrapper = document.createElement("div");
       wrapper.style.position = "relative";
       pre.parentNode.insertBefore(wrapper, pre);
       wrapper.appendChild(pre);
 
+      pre.style.padding = "1.1rem";
+      pre.style.borderRadius = "2px";
+
       //create button
       const button = document.createElement("button");
       button.className = "copy-button";
       button.title = "Copy code";
-      button.style = "position:absolute; top:8px; right:8px; background:none; border:none; cursor:pointer;";
+      button.style = "position:absolute; top:2px; right:2px; background:none; border:none; cursor:pointer;";
 
       const img = document.createElement("img");
       img.src = copyWhite;
@@ -31,7 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
       button.appendChild(img);
       wrapper.appendChild(button);
 
-      //fallback for http or old browsers
+      //fallback
       const fallbackCopy = (text) => {
         const textarea = document.createElement("textarea");
         textarea.value = text;
@@ -39,28 +46,30 @@ document.addEventListener("DOMContentLoaded", () => {
         textarea.style.left = "-9999px";
         document.body.appendChild(textarea);
         textarea.select();
-        try { document.execCommand("copy"); showCopied(); } 
-        catch { alert("Copy failed"); }
+        try {
+          document.execCommand("copy");
+          showCopied();
+        } catch {
+          alert("Copy failed. Clipboard not supported.");
+        }
         document.body.removeChild(textarea);
       };
 
-      const showCopied = () => { 
-        img.src = copyCheck; 
-        setTimeout(() => { img.src = copyWhite; }, 2000); 
+      //change icons when copied
+      const showCopied = () => {
+        img.src = copyCheck;
+        setTimeout(() => { img.src = copyWhite; }, 2000);
       };
-      
-      const handleCopy = (text) => { 
-        if(navigator.clipboard?.writeText) navigator.clipboard.writeText(text).then(showCopied).catch(()=>fallbackCopy(text)); 
-        else fallbackCopy(text); 
+
+      //copy handler
+      const handleCopy = (text) => {
+        if (navigator.clipboard?.writeText)
+          navigator.clipboard.writeText(text).then(showCopied).catch(() => fallbackCopy(text));
+        else
+          fallbackCopy(text);
       };
 
       button.addEventListener("click", () => handleCopy(pre.innerText));
     });
   });
 </script>
-
-<style>
-  .copy-button:hover {
-    opacity: 0.8;
-  }
-</style>

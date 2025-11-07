@@ -20,9 +20,12 @@ import CopyButton from '../components/CopyButton.astro';
     <article>
       <slot />
     </article>
+
+    <CopyButton />
 </BaseLayout>
 
 <!-- Code Copy Button Script -->
+<!--
 <script is:inline>
   const basePath = "/~cmuntz/";
   const copyWhite = `${basePath}assets/icons/copyWhite.svg`;
@@ -88,6 +91,7 @@ import CopyButton from '../components/CopyButton.astro';
     });
   });
 </script>
+-->
 
 <!-- Optional: KaTeX (math rendering) -->
 <link
